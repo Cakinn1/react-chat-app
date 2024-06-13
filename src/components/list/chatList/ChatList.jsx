@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./chatList.css";
+import AddUser from "./addUser/addUser";
 export default function ChatList() {
   const [addMode, setAddMode] = useState(false);
   return (
@@ -45,6 +46,7 @@ export default function ChatList() {
           <p>Hello</p>
         </div>
       </div>
+      {addMode && <AddUser />}
     </div>
   );
 }

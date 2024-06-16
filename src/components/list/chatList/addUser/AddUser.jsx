@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./addUser.css";
 import {
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -12,7 +13,6 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../../lib/firebase";
-import { arrayUnion } from "firebase/firestore/lite";
 import { useUserStore } from "../../../../lib/userStore";
 export default function AddUser() {
   const [user, setUser] = useState(null);
@@ -53,14 +53,15 @@ export default function AddUser() {
       });
 
 
-      // await updateDoc(doc(userChatsRef, user.id), {
-      //   chats: arrayUnion({
-      //     chatId: newChatRef.id,
-      //     lastMessage: "",
-      //     receiverId: currentUser.id,
-      //     updatedAt: Date.now(),
-      //   }),
-      // });
+      await updateDoc(doc(userChatsRef, user.id), {
+        chats: arrayUnion({
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: currentUser.id,
+          updatedAt: Date.now(),
+        }),
+      });
+
 
       await updateDoc(doc(userChatsRef, currentUser.id), {
         chats: arrayUnion({

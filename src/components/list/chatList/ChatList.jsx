@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./chatList.css";
 import AddUser from "./addUser/AddUser";
 import { useUserStore } from "../../../lib/userStore";
+import { useChatStore } from "../../../lib/chatStore";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 export default function ChatList() {
   const [addMode, setAddMode] = useState(false);
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
+  const { changeChat, chatId } = useChatStore();
 
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "userchats", currentUser?.id),
       async (res) => {
         const items = res.data().chats;
-      
 
         const promises = items.map(async (item) => {
           const userDocRef = doc(db, "users", item.receiverId);
@@ -32,6 +33,11 @@ export default function ChatList() {
     };
   }, [currentUser?.id]);
 
+  const handleSelect = async (chat) => {
+    changeChat(chat.chatId, chat.user);
+    console.log(chat);
+  };
+
   return (
     <div className="chatList">
       <div className="search">
@@ -47,10 +53,17 @@ export default function ChatList() {
         />
       </div>
       {chats.map((chat) => (
-        <div className="item" key={chat.chatId}>
-          <img src="/avatar.png" alt="" />
+        <div
+          className="item"
+          key={chat.chatId}
+          onClick={() => handleSelect(chat)}
+          style={{
+            backgroundColor: chat.isSeen ? "transparent" : "#5183fe",
+          }}
+        >
+          <img src={chat.user.avatar || "/avatar.png"} alt="" />
           <div className="texts">
-            <span>{}</span>
+            <span>{chat.user.username}</span>
             <p>{chat.lastMessage}</p>
           </div>
         </div>

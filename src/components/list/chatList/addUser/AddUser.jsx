@@ -19,7 +19,6 @@ export default function AddUser() {
 
   const { currentUser } = useUserStore();
 
-  // go back to 2:17:30-2:17:45
   const handleSearch = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);

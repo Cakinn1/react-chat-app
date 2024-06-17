@@ -62,7 +62,7 @@
       display: flex;
       gap: 20px;
       &.own {
-        align-self: flex-end; 
+        align-self: flex-end;
         .texts {
           p {
             background-color: #5183fe;
@@ -135,7 +135,12 @@
       border: none;
       outline: none;
       color: white;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
+
     .sendButton {
       background-color: #5183fe;
       color: white;
@@ -143,6 +148,11 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+
+      &:disabled {
+        background-color: #5182feb4;
+        cursor: not-allowed;
+      }
     }
   }
 }
